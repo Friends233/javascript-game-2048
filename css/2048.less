@@ -1,0 +1,40 @@
+@import "style.css"; // 初始化
+@import "config"; // 配置
+@import "game-style"; // 游戏方格主题
+
+.game-wrapper {
+  width: 500px;
+  min-height: 600px;
+  margin: 0 auto;
+  border: 1px solid black;
+  header {
+    text-align: center;
+    .score-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  main {
+    .game-2048 {
+      margin: 40px auto;
+      width: @GameWidth * @Row + 50px;
+      height: @GameHeight * @Col;
+      .game-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        .game-tab {
+          height: @GameHeight;
+          flex: 0 0 @GameWidth;
+          border-radius: @GameWidth * 0.2;
+          box-sizing: border-box;
+          line-height: @GameHeight;
+          text-align: center;
+          color: @GameColor;
+          font-size: @GameFontSize;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

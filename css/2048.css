@@ -1,0 +1,72 @@
+@import "style.css";
+.active-0 {
+  background-color: #6de353;
+}
+.active-2 {
+  background-color: #ef9559;
+}
+.active-4 {
+  background-color: #0080ff;
+}
+.active-8 {
+  background-color: #ff8000;
+}
+.active-16 {
+  background-color: #804040;
+}
+.active-32 {
+  background-color: #fa00df;
+}
+.active-64 {
+  background-color: #8000ff;
+}
+.active-128 {
+  background-color: #008080;
+}
+.active-256 {
+  background-color: #5ff3e1;
+}
+.active-512 {
+  background-color: #ff80c0;
+}
+.active-1024 {
+  background-color: #ff0000;
+}
+.active-2048 {
+  background-color: #000000;
+}
+.game-wrapper {
+  width: 500px;
+  min-height: 600px;
+  margin: 0 auto;
+  border: 1px solid black;
+}
+.game-wrapper header {
+  text-align: center;
+}
+.game-wrapper header .score-wrapper {
+  display: flex;
+  justify-content: center;
+}
+.game-wrapper main .game-2048 {
+  margin: 40px auto;
+  width: 410px;
+  height: 360px;
+}
+.game-wrapper main .game-2048 .game-row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.game-wrapper main .game-2048 .game-row .game-tab {
+  height: 90px;
+  flex: 0 0 90px;
+  border-radius: 18px;
+  box-sizing: border-box;
+  line-height: 90px;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  font-weight: 700;
+}
+/*# sourceMappingURL=2048.css.map */
