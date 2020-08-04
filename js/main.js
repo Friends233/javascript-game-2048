@@ -14,6 +14,8 @@ const STATUS = {
 }
 // 状态码
 
+const ADMIN = 'Admin'; // 测试用
+
 const KEY_UP = 'ArrowUp';
 const KEY_DOWN = 'ArrowDown';
 const KEY_LEFT = 'ArrowLeft';
@@ -30,24 +32,27 @@ let SCORE = 0; // 得分
 function Game(type = 0, flag= true) { // 游戏对象
     this.type = type;
     this.flag = flag; // 控制每次keydown后合并限制
+}
 
-    this.getType = function () {
+function FUNC() { // 封装方法
+    Game.prototype.getType = function () {
         return this.type;
     }
-    this.setType = function (type) {
+    Game.prototype.setType = function (type) {
         this.type = type;
         return this.type;
     }
-    this.getFlag = function () {
+    Game.prototype.getFlag = function () {
         return this.flag;
     }
-    this.setFlag = function (flag) {
+    Game.prototype.setFlag = function (flag){
         this.flag = flag;
         return this.flag;
     }
 }
 
 (function init() { // 初始化
+    FUNC();
     for (let i = 0; i<ROW; i++) {
         let ary = [];
         for (let j = 0; j<COL; j++) {
@@ -58,7 +63,7 @@ function Game(type = 0, flag= true) { // 游戏对象
     let btn = document.querySelector('.refresh');
     btn.addEventListener('click',() => {
         Clear();
-        randomGame(RandNumber);
+        randomGame(16, ADMIN);
         refresh();
     })
     randomGame(RandNumber);
@@ -80,7 +85,7 @@ function Clear() { // 清空所有的状态
 
 function keyDown() { // 监听键盘事件
     document.body.addEventListener('keydown', (e) => {
-        initFlag();
+        let temp = initFlag();
         if(e.code === KEY_UP) {
             // console.log('上');
             for(let i =0; i<COL; i++) {
@@ -108,17 +113,64 @@ function keyDown() { // 监听键盘事件
         else {
             return;
         }
+        if(comp(temp,GameTab)) {
+            if(Empty() && GameOver()) {
+                alert("Game Over");
+            }
+            return;
+        }
         randomGame(KEYDOWN_RADOM);
         refresh();
     })
 }
 
+function Empty() { // 判断GameTab是否已经被占满
+    // console.log(GameTab);
+    for (let i = 0; i<ROW; i++) {
+        for (let j = 0; j<COL; j++) {
+            if(GameTab[i][j].getType() === STATUS.STATUS_0) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function GameOver() {
+    for (let i = 0; i<ROW; i++) {
+        for (let j = 1; j<COL; j++) {
+            if(GameTab[i][j].getType() === GameTab[i][j-1].getType() ||
+                GameTab[j][i].getType() === GameTab[j-1][i].getType()){
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+function comp(ary1, ary2) { // 判断两个ary是否相等
+    for(let i = 0; i<ROW; i++) {
+        for (let j = 0; j<COL; j++) {
+            if(ary1[i][j].getFlag() !== ary2[i][j].getFlag() ||
+                ary1[i][j].getType() !== ary2[i][j].getType()) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
 function initFlag() {
+    let ary = [];
     GameTab.forEach((val) => {
+        let ary2 = [];
         val.forEach((v) => {
             v.setFlag(true);
+            ary2.push(new Game(v.getType(), v.getFlag())); // 复制游戏列表
         })
+        ary.push(ary2);
     })
+    return ary;
 }
 
 function ForEach(k, code) {
@@ -282,12 +334,18 @@ function refresh() { // 刷新html
     // 刷新界面
 }
 
-function randomGame(n) { // 随机产生n格
+function randomGame(n, char='user') { // 随机产生n格
     for (let i = 0; i<n; i++) {
         let x = Math.round(Math.random() * (COL - 1));
         let y = Math.round(Math.random() * (ROW - 1));
         if(GameTab[x][y].getType() === STATUS.STATUS_0) {
-            GameTab[x][y].setType(STATUS.STATUS_2);
+            if(char === ADMIN){
+                let ary = [0,2,4,8,16,32,64,128,256,512,1024,2048];
+                GameTab[x][y].setType(ary[Math.round(Math.random() * (ary.length-1))]);
+            }
+            else {
+                GameTab[x][y].setType(STATUS.STATUS_2);
+            }
         }
         else {
             i--;
