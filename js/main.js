@@ -105,6 +105,9 @@ function keyDown() { // 监听键盘事件
                 ForEach(i, KEY_RIGHT);
             }
         }
+        else {
+            return;
+        }
         randomGame(KEYDOWN_RADOM);
         refresh();
     })
