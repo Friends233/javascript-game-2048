@@ -63,7 +63,7 @@ function FUNC() { // 封装方法
     let btn = document.querySelector('.refresh');
     btn.addEventListener('click',() => {
         Clear();
-        randomGame(16, ADMIN);
+        randomGame(RandNumber);
         refresh();
     })
     randomGame(RandNumber);
@@ -125,7 +125,6 @@ function keyDown() { // 监听键盘事件
 }
 
 function Empty() { // 判断GameTab是否已经被占满
-    // console.log(GameTab);
     for (let i = 0; i<ROW; i++) {
         for (let j = 0; j<COL; j++) {
             if(GameTab[i][j].getType() === STATUS.STATUS_0) {
@@ -194,9 +193,12 @@ function ForEach(k, code) {
                         if(GameTab[key-1][k].getFlag()){
                             GameTab[key-1][k].setFlag(false);
                             type = type * 2;
+                            AddPoints(type);
+                            if(type > STATUS.STATUS_2048) {
+                                type = STATUS.STATUS_0;
+                            }
                             GameTab[key-1][k].setType(type);
                             GameTab[i][k].setType(STATUS.STATUS_0);
-                            AddPoints(type);
                         }
                         else {
                             type = GameTab[i][k].getType();
@@ -227,9 +229,12 @@ function ForEach(k, code) {
                         if(GameTab[key+1][k].getFlag()){
                             GameTab[key+1][k].setFlag(false);
                             type = type * 2;
+                            AddPoints(type);
+                            if(type > STATUS.STATUS_2048) {
+                                type = STATUS.STATUS_0;
+                            }
                             GameTab[key+1][k].setType(type);
                             GameTab[i][k].setType(STATUS.STATUS_0);
-                            AddPoints(type);
                         }
                         else {
                             type = GameTab[i][k].getType();
@@ -260,9 +265,12 @@ function ForEach(k, code) {
                         if(GameTab[k][key-1].getFlag()) {
                             GameTab[k][key-1].setFlag(false);
                             type = type * 2;
+                            AddPoints(type);
+                            if(type > STATUS.STATUS_2048) {
+                                type = STATUS.STATUS_0;
+                            }
                             GameTab[k][key - 1].setType(type);
                             GameTab[k][i].setType(STATUS.STATUS_0);
-                            AddPoints(type);
                         }
                         else {
                             type = GameTab[k][i].getType();
@@ -293,9 +301,12 @@ function ForEach(k, code) {
                         if(GameTab[k][key+1].getFlag()) {
                             GameTab[k][key+1].setFlag(false);
                             type = type * 2;
+                            AddPoints(type);
+                            if(type > STATUS.STATUS_2048) {
+                                type = STATUS.STATUS_0;
+                            }
                             GameTab[k][key+1].setType(type);
                             GameTab[k][i].setType(STATUS.STATUS_0);
-                            AddPoints(type);
                         }
                         else {
                             type = GameTab[k][i].getType();
@@ -353,4 +364,4 @@ function randomGame(n, char='user') { // 随机产生n格
     }
 }
 
-console.log(GameTab)
+// console.log(GameTab)
