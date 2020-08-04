@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
     <title>2048</title>
     <link rel="stylesheet/less" type="text/less" href="css/2048.less">
     <script src="js/less.js"></script>
@@ -9,14 +10,18 @@
 <body>
 <div class="game-wrapper">
     <header>
-        <div>
-            <h1 class="bt">2048</h1>
-        </div>
+        <h1 class="bt">2048</h1>
         <div class="score-wrapper">
-            <p class="score">分数:</p>
-            <p class="score">25</p>
+            <div class="card">
+                <p class="score">SCORE</p>
+                <p class="score">25</p>
+            </div>
+            <div class="card">
+                <p class="score">BEST</p>
+                <p class="score">25</p>
+            </div>
         </div>
-        <button class="refresh">刷新</button>
+        <button class="refresh">New Game</button>
     </header>
     <main>
         <div class="game-2048">

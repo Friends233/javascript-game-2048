@@ -63,6 +63,7 @@ function FUNC() { // 封装方法
     let btn = document.querySelector('.refresh');
     btn.addEventListener('click',() => {
         Clear();
+        SCORE = 0;
         randomGame(RandNumber);
         refresh();
     })
