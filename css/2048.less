@@ -7,6 +7,15 @@
     header {
       width: @GameWidth * @Col ;
       margin: 50px auto;
+      .msg {
+        position: absolute;
+        top: 100px;
+        left: 10px;
+        p {
+          color: #f1840b;
+          font-size: 18px;
+        }
+      }
       .bt {
         font-size: 74px;
       }
@@ -29,6 +38,7 @@
         }
       }
       .refresh {
+        width: 131px;
         padding: 10px 20px 10px 20px;
         font-size: 17px;
         border-radius: 5px;
@@ -51,11 +61,98 @@
         }
       }
     }
+    footer {
+      width: @GameWidth * @Col ;
+      margin: 50px auto;
+      text-align: center;
+      a{
+        color: #bdbbbb;
+        display: inline-block;
+        &:hover {
+          color: #f1840b;
+        }
+      }
+    }
   }
+  @media screen and (max-width: 768px) {
+    header {
+      width: @GameWidth768 * @Col ;
+      margin: 50px auto;
+      .msg {
+        position: absolute;
+        top: 100px;
+        left: 10px;
+        p {
+          color: #f1840b;
+          font-size: 18px;
+        }
+      }
+      .bt {
+        font-size: 74px;
+      }
+      .score-wrapper {
+        width: @GameWidth768 * @Col * 0.55;
+        position: absolute;
+        left: 215px;
+        top: 23px;
+        .card {
+          width: 55px;
+          height: 55px;
+          padding: 5px 22px 5px 22px;
+          border-radius: 10px;
+          p:first-child {
+            font-size: 15px;
+          }
+          p:last-child {
+            font-size: 25px;
+          }
+        }
+      }
+      .refresh {
+        width: 131px;
+        padding: 10px 20px 10px 20px;
+        font-size: 17px;
+        border-radius: 5px;
+        position: absolute;
+        left: 290px;
+        top: 95px;
+      }
+    }
+    main {
+      width: @GameWidth768 * @Row;
+      margin: 50px auto;
+      .game-row {
+        .game-tab {
+          font-size: @GameFontSize768;
+          height: @GameHeight768;
+          flex: 0 0 @GameWidth768;
+          line-height: @GameHeight768;
+          border-radius: @GameWidth768 * 0.2;
+          margin-left: 10px;
+        }
+      }
+    }
+    footer {
+      width: @GameWidth768 * @Col ;
+      margin: 50px auto;
+      text-align: center;
+      a{
+        color: #bdbbbb;
+        display: inline-block;
+        &:hover {
+          color: #f1840b;
+        }
+      }
+    }
+  }
+
   @media screen and (max-width: 500px) {
     header {
       width: 230px ;
       margin: 50px auto;
+      .msg {
+        display: none;
+      }
       .bt {
         font-size: 40px;
       }
@@ -78,6 +175,7 @@
         }
       }
       .refresh {
+        width: 86px;
         padding: 5px 10px 5px 10px;
         font-size: 12px;
         border-radius: 2px;
@@ -97,6 +195,19 @@
           line-height: @GameHeight375;
           border-radius: @GameWidth375 * 0.2;
           margin-left: 5px;
+        }
+      }
+    }
+    footer {
+      width: 340px ;
+      margin: 50px auto;
+      text-align: center;
+      a{
+        color: #bdbbbb;
+        display: inline-block;
+        &:hover {
+          font-size: 10px;
+          color: #f1840b;
         }
       }
     }

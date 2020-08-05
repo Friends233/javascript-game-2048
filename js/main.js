@@ -61,6 +61,7 @@ function FUNC() { // 封装方法
         }
         GameTab.push(ary);
     }
+    sessionStorage.setItem(BEST, 0);
     BestScore();
     BtnClick();
     randomGame(RandNumber);
@@ -94,7 +95,7 @@ function BtnClick() { // 刷新按钮事件
 }
 
 function AddPoints(type) { // 加分
-    SCORE += type * type / 8;
+    SCORE += type / 2;
 }
 
 function Clear() { // 清空所有的状态
