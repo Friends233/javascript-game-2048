@@ -147,6 +147,9 @@ function touch() { // 移动端屏幕触动监听
         if(comp(temp,GameTab)) {
             if(Empty() && GameOver()) {
                 alert("Game Over");
+                Clear();
+                randomGame(RandNumber);
+                refresh();
             }
             return;
         }
@@ -180,6 +183,9 @@ function keyDown() { // 监听键盘事件
         if(comp(temp,GameTab)) {
             if(Empty() && GameOver()) {
                 alert("Game Over");
+                Clear();
+                randomGame(RandNumber);
+                refresh();
             }
             return;
         }
