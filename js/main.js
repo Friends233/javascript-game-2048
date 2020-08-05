@@ -70,6 +70,7 @@ function FUNC() { // 封装方法
     randomGame(RandNumber);
     refresh();
     keyDown();
+    touch();
 })()
 
 function AddPoints(type) { // 加分
@@ -84,32 +85,73 @@ function Clear() { // 清空所有的状态
     })
 }
 
+function touch() { // 移动端屏幕触动监听
+    let main = document.querySelector('main');
+    let startX,startY,moveX,moveY; // 开始坐标和移动坐标
+    let X,Y; // 移动后的差值
+    let temp;
+    main.addEventListener('touchstart',(e) => {
+        e.preventDefault();
+        // console.log(e.changedTouches[0].pageX);
+        startX = e.changedTouches[0].pageX;
+        startY = e.changedTouches[0].pageY;
+    })
+    main.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        moveX = e.changedTouches[0].pageX;
+        moveY = e.changedTouches[0].pageY;
+        X = moveX - startX;
+        Y = moveY - startY;
+        temp = initFlag();
+        // console.log(X,Y);
+        if(Math.abs(X) > Math.abs(Y) && X < 0) {
+            // console.log('left');
+            move(KEY_LEFT);
+        }
+        else if(Math.abs(X) > Math.abs(Y) && X > 0) {
+            // console.log('right');
+            move(KEY_RIGHT);
+        }
+        else if(Math.abs(X) < Math.abs(Y)&& Y > 0) {
+            // console.log('down');
+            move(KEY_DOWN);
+        }
+        else if(Math.abs(X) < Math.abs(Y) && Y < 0) {
+            // console.log('up');
+            move(KEY_UP);
+        }
+        else {
+            return;
+        }
+        if(comp(temp,GameTab)) {
+            if(Empty() && GameOver()) {
+                alert("Game Over");
+            }
+            return;
+        }
+        randomGame(KEYDOWN_RADOM);
+        refresh();
+    })
+}
+
 function keyDown() { // 监听键盘事件
     document.body.addEventListener('keydown', (e) => {
         let temp = initFlag();
         if(e.code === KEY_UP) {
             // console.log('上');
-            for(let i =0; i<COL; i++) {
-                ForEach(i, KEY_UP);
-            }
+            move(KEY_UP);
         }
         else if(e.code === KEY_DOWN) {
             // console.log('下');
-            for(let i =0; i<COL; i++) {
-                ForEach(i, KEY_DOWN);
-            }
+            move(KEY_DOWN);
         }
         else if(e.code === KEY_LEFT) {
             // console.log('左');
-            for(let i =0; i<COL; i++) {
-                ForEach(i, KEY_LEFT);
-            }
+            move(KEY_LEFT);
         }
         else if(e.code === KEY_RIGHT) {
             // console.log('右');
-            for(let i =0; i<COL; i++) {
-                ForEach(i, KEY_RIGHT);
-            }
+            move(KEY_RIGHT);
         }
         else {
             return;
@@ -173,146 +215,148 @@ function initFlag() {
     return ary;
 }
 
-function ForEach(k, code) {
-    let type = STATUS.STATUS_0;
-    if(code === KEY_UP) {
-        let key = 0;
-        for(let i = 0; i<ROW; i++) {
-            if(GameTab[i][k].getType() !== STATUS.STATUS_0) {
-                if(type === STATUS.STATUS_0) {
-                    type = GameTab[i][k].getType();
-                    GameTab[i][k].setType(STATUS.STATUS_0);
-                    GameTab[key++][k].setType(type);
-                }
-                else {
-                    if(type !== GameTab[i][k].getType()) {
+function move(code) {
+    for(let k = 0; k<ROW; k++) {
+        let type = STATUS.STATUS_0;
+        if(code === KEY_UP) {
+            let key = 0;
+            for(let i = 0; i<ROW; i++) {
+                if(GameTab[i][k].getType() !== STATUS.STATUS_0) {
+                    if(type === STATUS.STATUS_0) {
                         type = GameTab[i][k].getType();
                         GameTab[i][k].setType(STATUS.STATUS_0);
                         GameTab[key++][k].setType(type);
                     }
                     else {
-                        if(GameTab[key-1][k].getFlag()){
-                            GameTab[key-1][k].setFlag(false);
-                            type = type * 2;
-                            AddPoints(type);
-                            if(type > STATUS.STATUS_2048) {
-                                type = STATUS.STATUS_0;
-                            }
-                            GameTab[key-1][k].setType(type);
-                            GameTab[i][k].setType(STATUS.STATUS_0);
-                        }
-                        else {
+                        if(type !== GameTab[i][k].getType()) {
                             type = GameTab[i][k].getType();
                             GameTab[i][k].setType(STATUS.STATUS_0);
                             GameTab[key++][k].setType(type);
+                        }
+                        else {
+                            if(GameTab[key-1][k].getFlag()){
+                                GameTab[key-1][k].setFlag(false);
+                                type = type * 2;
+                                AddPoints(type);
+                                if(type > STATUS.STATUS_2048) {
+                                    type = STATUS.STATUS_0;
+                                }
+                                GameTab[key-1][k].setType(type);
+                                GameTab[i][k].setType(STATUS.STATUS_0);
+                            }
+                            else {
+                                type = GameTab[i][k].getType();
+                                GameTab[i][k].setType(STATUS.STATUS_0);
+                                GameTab[key++][k].setType(type);
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    else if(code === KEY_DOWN) {
-        let key = ROW-1;
-        for(let i = ROW-1; i>=0; i--) {
-            if(GameTab[i][k].getType() !== STATUS.STATUS_0) {
-                if(type === STATUS.STATUS_0) {
-                    type = GameTab[i][k].getType();
-                    GameTab[i][k].setType(STATUS.STATUS_0);
-                    GameTab[key--][k].setType(type);
-                }
-                else {
-                    if(type !== GameTab[i][k].getType()) {
+        else if(code === KEY_DOWN) {
+            let key = ROW-1;
+            for(let i = ROW-1; i>=0; i--) {
+                if(GameTab[i][k].getType() !== STATUS.STATUS_0) {
+                    if(type === STATUS.STATUS_0) {
                         type = GameTab[i][k].getType();
                         GameTab[i][k].setType(STATUS.STATUS_0);
                         GameTab[key--][k].setType(type);
                     }
                     else {
-                        if(GameTab[key+1][k].getFlag()){
-                            GameTab[key+1][k].setFlag(false);
-                            type = type * 2;
-                            AddPoints(type);
-                            if(type > STATUS.STATUS_2048) {
-                                type = STATUS.STATUS_0;
-                            }
-                            GameTab[key+1][k].setType(type);
-                            GameTab[i][k].setType(STATUS.STATUS_0);
-                        }
-                        else {
+                        if(type !== GameTab[i][k].getType()) {
                             type = GameTab[i][k].getType();
                             GameTab[i][k].setType(STATUS.STATUS_0);
                             GameTab[key--][k].setType(type);
+                        }
+                        else {
+                            if(GameTab[key+1][k].getFlag()){
+                                GameTab[key+1][k].setFlag(false);
+                                type = type * 2;
+                                AddPoints(type);
+                                if(type > STATUS.STATUS_2048) {
+                                    type = STATUS.STATUS_0;
+                                }
+                                GameTab[key+1][k].setType(type);
+                                GameTab[i][k].setType(STATUS.STATUS_0);
+                            }
+                            else {
+                                type = GameTab[i][k].getType();
+                                GameTab[i][k].setType(STATUS.STATUS_0);
+                                GameTab[key--][k].setType(type);
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    else if(code === KEY_LEFT) {
-        let key = 0;
-        for(let i = 0; i<COL; i++) {
-            if(GameTab[k][i].getType() !== STATUS.STATUS_0) {
-                if(type === STATUS.STATUS_0) {
-                    type = GameTab[k][i].getType();
-                    GameTab[k][i].setType(STATUS.STATUS_0);
-                    GameTab[k][key++].setType(type);
-                }
-                else {
-                    if(type !== GameTab[k][i].getType()) {
+        else if(code === KEY_LEFT) {
+            let key = 0;
+            for(let i = 0; i<COL; i++) {
+                if(GameTab[k][i].getType() !== STATUS.STATUS_0) {
+                    if(type === STATUS.STATUS_0) {
                         type = GameTab[k][i].getType();
                         GameTab[k][i].setType(STATUS.STATUS_0);
                         GameTab[k][key++].setType(type);
                     }
                     else {
-                        if(GameTab[k][key-1].getFlag()) {
-                            GameTab[k][key-1].setFlag(false);
-                            type = type * 2;
-                            AddPoints(type);
-                            if(type > STATUS.STATUS_2048) {
-                                type = STATUS.STATUS_0;
-                            }
-                            GameTab[k][key - 1].setType(type);
-                            GameTab[k][i].setType(STATUS.STATUS_0);
-                        }
-                        else {
+                        if(type !== GameTab[k][i].getType()) {
                             type = GameTab[k][i].getType();
                             GameTab[k][i].setType(STATUS.STATUS_0);
                             GameTab[k][key++].setType(type);
+                        }
+                        else {
+                            if(GameTab[k][key-1].getFlag()) {
+                                GameTab[k][key-1].setFlag(false);
+                                type = type * 2;
+                                AddPoints(type);
+                                if(type > STATUS.STATUS_2048) {
+                                    type = STATUS.STATUS_0;
+                                }
+                                GameTab[k][key - 1].setType(type);
+                                GameTab[k][i].setType(STATUS.STATUS_0);
+                            }
+                            else {
+                                type = GameTab[k][i].getType();
+                                GameTab[k][i].setType(STATUS.STATUS_0);
+                                GameTab[k][key++].setType(type);
+                            }
                         }
                     }
                 }
             }
         }
-    }
-    else if(code === KEY_RIGHT) {
-        let key = COL-1;
-        for(let i = COL-1; i>=0; i--) {
-            if(GameTab[k][i].getType() !== STATUS.STATUS_0) {
-                if(type === STATUS.STATUS_0) {
-                    type = GameTab[k][i].getType();
-                    GameTab[k][i].setType(STATUS.STATUS_0);
-                    GameTab[k][key--].setType(type);
-                }
-                else {
-                    if(type !== GameTab[k][i].getType()) {
+        else if(code === KEY_RIGHT) {
+            let key = COL-1;
+            for(let i = COL-1; i>=0; i--) {
+                if(GameTab[k][i].getType() !== STATUS.STATUS_0) {
+                    if(type === STATUS.STATUS_0) {
                         type = GameTab[k][i].getType();
                         GameTab[k][i].setType(STATUS.STATUS_0);
                         GameTab[k][key--].setType(type);
                     }
                     else {
-                        if(GameTab[k][key+1].getFlag()) {
-                            GameTab[k][key+1].setFlag(false);
-                            type = type * 2;
-                            AddPoints(type);
-                            if(type > STATUS.STATUS_2048) {
-                                type = STATUS.STATUS_0;
-                            }
-                            GameTab[k][key+1].setType(type);
-                            GameTab[k][i].setType(STATUS.STATUS_0);
-                        }
-                        else {
+                        if(type !== GameTab[k][i].getType()) {
                             type = GameTab[k][i].getType();
                             GameTab[k][i].setType(STATUS.STATUS_0);
                             GameTab[k][key--].setType(type);
+                        }
+                        else {
+                            if(GameTab[k][key+1].getFlag()) {
+                                GameTab[k][key+1].setFlag(false);
+                                type = type * 2;
+                                AddPoints(type);
+                                if(type > STATUS.STATUS_2048) {
+                                    type = STATUS.STATUS_0;
+                                }
+                                GameTab[k][key+1].setType(type);
+                                GameTab[k][i].setType(STATUS.STATUS_0);
+                            }
+                            else {
+                                type = GameTab[k][i].getType();
+                                GameTab[k][i].setType(STATUS.STATUS_0);
+                                GameTab[k][key--].setType(type);
+                            }
                         }
                     }
                 }
