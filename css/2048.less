@@ -3,43 +3,127 @@
 @import "game-style"; // 游戏方格主题
 
 .game-wrapper {
+  @media screen and (min-width: 768px) {
+    header {
+      width: @GameWidth * @Col ;
+      margin: 50px auto;
+      .bt {
+        font-size: 74px;
+      }
+      .score-wrapper {
+        width: @GameWidth * @Col * 0.55;
+        position: absolute;
+        left: 215px;
+        top: 23px;
+        .card {
+          width: 55px;
+          height: 55px;
+          padding: 5px 22px 5px 22px;
+          border-radius: 10px;
+          p:first-child {
+            font-size: 15px;
+          }
+          p:last-child {
+            font-size: 25px;
+          }
+        }
+      }
+      .refresh {
+        padding: 10px 20px 10px 20px;
+        font-size: 17px;
+        border-radius: 5px;
+        position: absolute;
+        left: 290px;
+        top: 95px;
+      }
+    }
+    main {
+      width: @GameWidth * @Row;
+      margin: 50px auto;
+      .game-row {
+        .game-tab {
+          font-size: @GameFontSize768;
+          height: @GameHeight;
+          flex: 0 0 @GameWidth;
+          line-height: @GameHeight;
+          border-radius: @GameWidth * 0.2;
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 500px) {
+    header {
+      width: 230px ;
+      margin: 50px auto;
+      .bt {
+        font-size: 40px;
+      }
+      .score-wrapper {
+        width: 150px;
+        position: absolute;
+        left: 103px;
+        top: 10px;
+        .card {
+          width: 40px;
+          height: 40px;
+          padding: 2px 15px 2px 15px;
+          border-radius: 5px;
+          p:first-child {
+            font-size: 10px;
+          }
+          p:last-child {
+            font-size: 20px;
+          }
+        }
+      }
+      .refresh {
+        padding: 5px 10px 5px 10px;
+        font-size: 12px;
+        border-radius: 2px;
+        position: absolute;
+        left: 160px;
+        top: 65px;
+      }
+    }
+    main {
+      width: @GameWidth375 * @Row;
+      margin: 0 auto;
+      .game-row {
+        .game-tab {
+          font-size: @GameFontSize375;
+          height: @GameHeight375;
+          flex: 0 0 @GameWidth375;
+          line-height: @GameHeight375;
+          border-radius: @GameWidth375 * 0.2;
+          margin-left: 5px;
+        }
+      }
+    }
+  }
   header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    flex-wrap: wrap;
+    position: relative;
     .bt {
       color: #776e65;
-      max-font-size: 74px;
     }
     .score-wrapper {
       display: flex;
       justify-content: space-between;
       .card {
-        width: 55px;
-        height: 55px;
-        padding: 5px 22px 5px 22px;
         background-color: #bbada0;
-        border-radius: 10px;
         p:first-child {
           text-align: center;
           color: #e9e4da;
-          font-size: 15px;
         }
         p:last-child {
           text-align: center;
           color: white;
-          font-size: 25px;
         }
       }
     }
     .refresh {
-      padding: 10px 20px 10px 20px;
       color: #f9f6f2;
       background-color: #8f7a66;
-      font-size: 17px;
-      border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
     }
@@ -47,21 +131,13 @@
   main {
     .game-2048 {
       margin: 40px auto;
-      max-width: @GameWidth * @Row;
       .game-row {
         display: flex;
         justify-content: space-between;
         margin-top: 10px;
         .game-tab {
-          min-height: @GameHeight;
-          flex: 1;
-          border-radius: @GameWidth * 0.2;
-          margin-left: 10px;
-          //box-sizing: border-box;
-          line-height: @GameHeight;
           text-align: center;
           font-family: @GameFontFamily;
-          font-size: @GameFontSize;
           color: @GameColor;
           font-weight: 800;
         }

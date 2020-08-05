@@ -15,12 +15,13 @@ const STATUS = {
 // 状态码
 
 const ADMIN = 'Admin'; // 测试用
+const BEST = 'BEST'; // 最高分
 
 const KEY_UP = 'ArrowUp';
 const KEY_DOWN = 'ArrowDown';
 const KEY_LEFT = 'ArrowLeft';
 const KEY_RIGHT = 'ArrowRight';
-// 键盘事件对应code
+// 事件对应code
 
 const ROW = 4; // 行
 const COL = 4; // 列
@@ -60,21 +61,40 @@ function FUNC() { // 封装方法
         }
         GameTab.push(ary);
     }
-    let btn = document.querySelector('.refresh');
-    btn.addEventListener('click',() => {
-        Clear();
-        SCORE = 0;
-        randomGame(RandNumber);
-        refresh();
-    })
+    BestScore();
+    BtnClick();
     randomGame(RandNumber);
     refresh();
     keyDown();
     touch();
 })()
 
+function BestScore(num=0) { // 初始化最高分
+    try {
+        if(num > sessionStorage.getItem(BEST)){
+            sessionStorage.setItem(BEST, num);
+        }
+    }
+    catch (e) {
+        sessionStorage.setItem(BEST, 0);
+    }
+}
+
+function BtnClick() { // 刷新按钮事件
+    let btn = document.querySelector('.refresh');
+    btn.addEventListener('click',() => {
+        Clear();
+        if(SCORE > sessionStorage.getItem(BEST)){
+            BestScore(SCORE);
+        }
+        SCORE = 0;
+        randomGame(RandNumber);
+        refresh();
+    })
+}
+
 function AddPoints(type) { // 加分
-    SCORE += type * type;
+    SCORE += type * type / 8;
 }
 
 function Clear() { // 清空所有的状态
@@ -366,8 +386,15 @@ function move(code) {
 }
 
 function refresh() { // 刷新html
+    let bestScore = sessionStorage.getItem(BEST);
+    if(bestScore < SCORE) {
+        bestScore = SCORE;
+        BestScore(bestScore);
+    }
     let score = document.querySelectorAll('.score')[1];
     score.innerHTML = SCORE;
+    let best = document.querySelectorAll('.score')[3];
+    best.innerHTML = bestScore;
     // 刷新分数
 
     let gameList = document.querySelectorAll('.game-tab');
