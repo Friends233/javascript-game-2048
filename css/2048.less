@@ -5,7 +5,7 @@
 .game-wrapper {
   @media screen and (min-width: 768px) {
     header {
-      width: @GameWidth * @Col ;
+      width: @Width ;
       margin: 50px auto;
       .msg {
         position: absolute;
@@ -48,7 +48,7 @@
       }
     }
     main {
-      width: @GameWidth * @Row;
+      width: @Width;
       margin: 50px auto;
       .game-row {
         .game-tab {
@@ -57,12 +57,11 @@
           flex: 0 0 @GameWidth;
           line-height: @GameHeight;
           border-radius: @GameWidth * 0.2;
-          margin-left: 10px;
         }
       }
     }
     footer {
-      width: @GameWidth * @Col ;
+      width: @Width ;
       margin: 50px auto;
       text-align: center;
       a{
@@ -76,7 +75,7 @@
   }
   @media screen and (max-width: 768px) {
     header {
-      width: @GameWidth768 * @Col ;
+      width: @Width768 ;
       margin: 50px auto;
       .msg {
         position: absolute;
@@ -119,7 +118,7 @@
       }
     }
     main {
-      width: @GameWidth768 * @Row;
+      width: @Width768;
       margin: 50px auto;
       .game-row {
         .game-tab {
@@ -128,12 +127,11 @@
           flex: 0 0 @GameWidth768;
           line-height: @GameHeight768;
           border-radius: @GameWidth768 * 0.2;
-          margin-left: 10px;
         }
       }
     }
     footer {
-      width: @GameWidth768 * @Col ;
+      width: @Width768 ;
       margin: 50px auto;
       text-align: center;
       a{
@@ -148,7 +146,7 @@
 
   @media screen and (max-width: 500px) {
     header {
-      width: 230px ;
+      width: @Width375 ;
       margin: 50px auto;
       .msg {
         display: none;
@@ -185,7 +183,7 @@
       }
     }
     main {
-      width: @GameWidth375 * @Row;
+      width: @Width375;
       margin: 0 auto;
       .game-row {
         .game-tab {
@@ -194,7 +192,6 @@
           flex: 0 0 @GameWidth375;
           line-height: @GameHeight375;
           border-radius: @GameWidth375 * 0.2;
-          margin-left: 5px;
         }
       }
     }
